@@ -11,6 +11,26 @@
     </div>
   <% end %>
 
+  <div class="form-group">
+    <%= f.label :followers %><br>
+    <%= f.text_field :followers, type: "number", step: 1 %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :message %><br>
+    <%= f.text_field :message %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :sentiment %><br>
+    <%= f.text_field :sentiment, type: "number", step: 0.1  %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :user_handle %><br>
+    <%= f.text_field :user_handle %>
+  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

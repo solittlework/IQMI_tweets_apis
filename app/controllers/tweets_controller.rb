@@ -5,7 +5,7 @@ class TweetsController < ApplicationController
   # GET /tweets.json
   def index
     @tweets_percentage_with_keywords = "N / A"
-    @tweets = Tweet.where((['message LIKE ?'] * Tweet::KEYWORDS.size).join(' OR '), * Tweet::KEYWORDS.map{ |key| "%#{key}%" })
+    @tweets = Tweet.where((['message LIKE ?'] * Tweet::KEYWORDS.size).join(' OR '), * Tweet::KEYWORDS.map{ |key| "%#{key}%" }).order(:sentiment)
     total_tweets_num = Tweet.count
     @tweets_percentage_with_keywords = (@tweets.size.to_f / total_tweets_num) * 100 .round(2) if total_tweets_num > 0
   end
@@ -81,7 +81,7 @@ class TweetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tweet_params
-      params.fetch(:tweet, {})
+      params.fetch(:tweet, {}).permit(:followers, :message, :sentiment, :user_handle)
     end
 
 
