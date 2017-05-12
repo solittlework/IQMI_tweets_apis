@@ -1,13 +1,15 @@
 <p id="notice"><%= notice %></p>
 
 <% if flash[:error].present? %>
-  <p>
+  <div class="alert alert-danger">
     <%= flash[:error] %>
-  </p>
+  </div>
 <% end %>
 
 <h1>Tweets</h1>
-<%= button_to "Fetch data from tweet api", action: "fetch_remote_data" %>
+
+<%= button_to "Fetch tweets from remote server", action: "fetch_remote_data", class: "btn btn-primary"%>
+<br>
 
 <table class="table">
   <thead>
@@ -34,8 +36,8 @@
         <td><%= tweet.user_handle %></td>
         <td><%= tweet.created_at %></td>
         <td><%= tweet.updated_at %></td>
-        <td><%= link_to 'Edit', edit_tweet_path(tweet) %></td>
-        <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Edit', edit_tweet_path(tweet), class: "btn btn-primary" %></td>
+        <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' },  class: "btn btn-danger" %></td>
       </tr>
     <% end %>
   </tbody>
@@ -44,7 +46,5 @@
 <br>
 
 <p>
-  Percentage of tweets including key workds: [ <%= Tweet::KEYWORDS.map(&:inspect).join(', ') %> ] : <%= @tweets_percentage_with_keywords %>
+  Percentage of tweets including key workds: [ <%= Tweet::KEYWORDS.map(&:inspect).join(', ') %> ] : <%= @tweets_percentage_with_keywords %>%
 </p>
-
-<%= link_to 'New Tweet', new_tweet_path %>

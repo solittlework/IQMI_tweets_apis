@@ -7,7 +7,7 @@ class TweetsController < ApplicationController
     @tweets_percentage_with_keywords = "N / A"
     @tweets = Tweet.where((['message LIKE ?'] * Tweet::KEYWORDS.size).join(' OR '), * Tweet::KEYWORDS.map{ |key| "%#{key}%" }).order(:sentiment)
     total_tweets_num = Tweet.count
-    @tweets_percentage_with_keywords = (@tweets.size.to_f / total_tweets_num) * 100 .round(2) if total_tweets_num > 0
+    @tweets_percentage_with_keywords = (@tweets.size.to_f / total_tweets_num * 100)  .round(2) if total_tweets_num > 0
   end
 
   # GET /tweets/1
