@@ -4,7 +4,10 @@ class TweetsController < ApplicationController
   # GET /tweets
   # GET /tweets.json
   def index
-    @tweets = Tweet.all
+    @tweets_percentage_with_keywords = "N / A"
+    @tweets = Tweet.where((['message LIKE ?'] * Tweet::KEYWORDS.size).join(' OR '), * Tweet::KEYWORDS.map{ |key| "%#{key}%" })
+    total_tweets_num = Tweet.count
+    @tweets_percentage_with_keywords = (@tweets.size.to_f / total_tweets_num) * 100 .round(2) if total_tweets_num > 0
   end
 
   # GET /tweets/1
@@ -51,6 +54,15 @@ class TweetsController < ApplicationController
     end
   end
 
+  def fetch_remote_data
+    error = Tweet.fetch_tweets
+    if error.present?
+      flash[:error] = error
+    end
+    # redirect_to :back -> Rails 5 new feature
+    redirect_to :back
+  end
+
   # DELETE /tweets/1
   # DELETE /tweets/1.json
   def destroy
@@ -71,4 +83,6 @@ class TweetsController < ApplicationController
     def tweet_params
       params.fetch(:tweet, {})
     end
+
+
 end
